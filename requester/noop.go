@@ -3,7 +3,7 @@ package requester
 import (
 	"sync"
 
-	"github.com/tylertreat/bench"
+	"github.com/arush15june/bench"
 )
 
 type NOOPRequesterFactory struct {
