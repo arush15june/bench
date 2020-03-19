@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/nats-io/nats.go"
-	"github.com/tylertreat/bench"
+	"github.com/arush15june/bench"
 )
 
 // NATSRequesterFactory implements RequesterFactory by creating a Requester
