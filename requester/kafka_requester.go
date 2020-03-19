@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/Shopify/sarama"
-	"github.com/tylertreat/bench"
+	"github.com/arush15june/bench"
 )
 
 // KafkaRequesterFactory implements RequesterFactory by creating a Requester
