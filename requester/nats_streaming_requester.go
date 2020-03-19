@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/nats-io/stan.go"
-	"github.com/tylertreat/bench"
+	"github.com/arush15june/bench"
 )
 
 // NATSStreamingRequesterFactory implements RequesterFactory by creating a
