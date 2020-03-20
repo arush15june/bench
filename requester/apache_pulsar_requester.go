@@ -104,16 +104,11 @@ func (n *PulsarRequester) Request() error {
 	if err := n.producer.Send(context.Background(), n.msg); err != nil {
 		return err
 	}
-	fmt.Println("sent message")
-	
-	msg, err := n.consumer.Receive(context.Background())
-	if err != nil {
-		return err
-	}
-	n.consumer.Ack(msg)
-	fmt.Println("recvd message")
 
-	return err
+	msg := <-n.messageChan
+	n.consumer.Ack(msg.Message)
+
+	return nil
 }
 
 // Teardown is called upon benchmark completion.
