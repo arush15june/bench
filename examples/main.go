@@ -10,7 +10,7 @@ import (
 
 func main() {
 	r := &requester.PulsarRequesterFactory{
-		URL:         "pulsar://localhost:6650",
+		URL:         "pulsar://149.129.167.102:6650",
 		PayloadSize: 500,
 		Topic:       "benchmark",
 	}
@@ -22,5 +22,5 @@ func main() {
 	}
 
 	fmt.Println(summary)
-	summary.GenerateLatencyDistribution(nil, "nats.txt")
+	summary.GenerateLatencyDistribution(nil, "pulsar.txt")
 }

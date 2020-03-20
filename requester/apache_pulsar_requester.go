@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"runtime"
 	"strconv"
+	"fmt"
 
 	"github.com/apache/pulsar/pulsar-client-go/pulsar"
 	"github.com/arush15june/bench"
@@ -55,32 +56,34 @@ func (n *PulsarRequester) Setup() error {
 		return err
 	}
 	n.client = client
-
+	fmt.Println(n.client)
+	
 	producer, err := client.CreateProducer(pulsar.ProducerOptions{
 		Topic: n.topic,
 	})
-
+	
 	if err != nil {
 		return err
 	}
-
+	
 	n.producer = producer
-
+	fmt.Println(n.producer)
+	
 	consumerOpts := pulsar.ConsumerOptions{
 		Topic:            n.topic,
 		SubscriptionName: "my-subscription-1",
-		Type:             pulsar.Exclusive,
 		MessageChannel:   n.messageChan,
 	}
-
+	
 	consumer, err := client.Subscribe(consumerOpts)
-
+	
 	if err != nil {
 		return err
 	}
-
+	
 	n.consumer = consumer
-
+	fmt.Println(n.consumer)
+	
 	msgValue := make([]byte, n.payloadSize)
 	for i := 0; i < n.payloadSize; i++ {
 		msgValue[i] = 'A' + uint8(rand.Intn(26))
@@ -89,7 +92,8 @@ func (n *PulsarRequester) Setup() error {
 		Payload: msgValue,
 	}
 	n.msg = msg
-
+	fmt.Println(n.msg)
+	
 	n.ctx = context.Background()
 
 	return nil
@@ -100,12 +104,14 @@ func (n *PulsarRequester) Request() error {
 	if err := n.producer.Send(context.Background(), n.msg); err != nil {
 		return err
 	}
-
-	msg, err := n.consumer.Receive(n.ctx)
+	fmt.Println("sent message")
+	
+	msg, err := n.consumer.Receive(context.Background())
 	if err != nil {
 		return err
 	}
 	n.consumer.Ack(msg)
+	fmt.Println("recvd message")
 
 	return err
 }
