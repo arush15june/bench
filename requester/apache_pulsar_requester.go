@@ -69,7 +69,6 @@ func (n *PulsarRequester) Setup() error {
 	consumerOpts := pulsar.ConsumerOptions{
 		Topic:            n.topic,
 		SubscriptionName: "my-subscription-1",
-		Type:             pulsar.Exclusive,
 		MessageChannel:   n.messageChan,
 	}
 
@@ -101,13 +100,10 @@ func (n *PulsarRequester) Request() error {
 		return err
 	}
 
-	msg, err := n.consumer.Receive(n.ctx)
-	if err != nil {
-		return err
-	}
-	n.consumer.Ack(msg)
+	msg := <-n.messageChan
+	n.consumer.Ack(msg.Message)
 
-	return err
+	return nil
 }
 
 // Teardown is called upon benchmark completion.
