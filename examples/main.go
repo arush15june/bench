@@ -9,10 +9,10 @@ import (
 )
 
 func main() {
-	r := &requester.NATSRequesterFactory{
-		URL:         "nats://localhost:4222",
+	r := &requester.PulsarRequesterFactory{
+		URL:         "pulsar://localhost:6650",
 		PayloadSize: 500,
-		Subject:     "benchmark",
+		Topic:       "benchmark",
 	}
 
 	benchmark := bench.NewBenchmark(r, 10000, 1, 30*time.Second, 0)
