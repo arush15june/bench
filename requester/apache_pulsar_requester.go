@@ -5,7 +5,6 @@ import (
 	"math/rand"
 	"runtime"
 	"strconv"
-	"fmt"
 
 	"github.com/apache/pulsar/pulsar-client-go/pulsar"
 	"github.com/arush15june/bench"
@@ -56,7 +55,6 @@ func (n *PulsarRequester) Setup() error {
 		return err
 	}
 	n.client = client
-	fmt.Println(n.client)
 	
 	producer, err := client.CreateProducer(pulsar.ProducerOptions{
 		Topic: n.topic,
@@ -67,7 +65,6 @@ func (n *PulsarRequester) Setup() error {
 	}
 	
 	n.producer = producer
-	fmt.Println(n.producer)
 	
 	consumerOpts := pulsar.ConsumerOptions{
 		Topic:            n.topic,
@@ -82,7 +79,6 @@ func (n *PulsarRequester) Setup() error {
 	}
 	
 	n.consumer = consumer
-	fmt.Println(n.consumer)
 	
 	msgValue := make([]byte, n.payloadSize)
 	for i := 0; i < n.payloadSize; i++ {
@@ -92,7 +88,6 @@ func (n *PulsarRequester) Setup() error {
 		Payload: msgValue,
 	}
 	n.msg = msg
-	fmt.Println(n.msg)
 	
 	n.ctx = context.Background()
 

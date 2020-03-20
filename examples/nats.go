@@ -10,7 +10,8 @@ import (
 )
 
 func main() {
-	payloads := []int{512, 1024, 500000, 1000000}
+	payloads := []int{512, 1024, 100000, 500000, 1000000}
+	var requestRate uint64 = 10000
 	for i := range payloads {
 		fmt.Println("Payload: ", payloads[i])
 		r := &requester.NATSRequesterFactory{
@@ -19,14 +20,14 @@ func main() {
 			Subject:     "benchmark",
 		}
 	
-		benchmark := bench.NewBenchmark(r, 1500, 1, 30*time.Second, 0)
+		benchmark := bench.NewBenchmark(r, requestRate, 1, 30*time.Second, 0)
 		summary, err := benchmark.Run()
 		if err != nil {
 			panic(err)
 		}
 	
 		fmt.Println(summary)
-		ioutil.WriteFile(fmt.Sprintf("nats-summary-%d.txt", payloads[i]), []byte(fmt.Sprintf("%v", summary)), 0644)
-		summary.GenerateLatencyDistribution(nil, fmt.Sprintf("nats-%d.txt", payloads[i]))
+		ioutil.WriteFile(fmt.Sprintf("nats-summary-%d-%d.txt", requestRate, payloads[i]), []byte(fmt.Sprintf("%v", summary)), 0644)
+		summary.GenerateLatencyDistribution(nil, fmt.Sprintf("nats-%d-%d.txt", requestRate, payloads[i]))
 	}
 }
